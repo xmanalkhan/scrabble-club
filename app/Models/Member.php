@@ -11,9 +11,12 @@ class Member extends Model
 
     protected $fillable = ['name', 'email', 'joined_at'];
 
+    protected $casts = [
+        'joined_at' => 'datetime',
+    ];
+
     public function games()
     {
         return $this->belongsToMany(Game::class)->withPivot('score')->withTimestamps();
     }
 }
-
