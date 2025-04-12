@@ -2,64 +2,51 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
+use App\Models\Game;
+use App\Models\Member;
 use Illuminate\Http\Request;
 
 class GameController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $games = Game::with('members')->latest('played_at')->get();
+        return view('games.index', compact('games'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        $members = Member::all();
+        return view('games.create', compact('members'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'played_at' => 'required|date',
+            'members' => 'required|array|min:2',
+            'members.*.id' => 'required|exists:members,id',
+            'members.*.score' => 'required|integer|min:0',
+        ]);
+
+        $game = Game::create(['played_at' => $request->played_at]);
+
+        foreach ($validated['members'] as $data) {
+            $game->members()->attach($data['id'], ['score' => $data['score']]);
+        }
+
+        return redirect()->route('games.index')->with('success', 'Game added!');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function show(Game $game)
     {
-        //
+        $game->load('members');
+        return view('games.show', compact('game'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function destroy(Game $game)
     {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        $game->delete();
+        return redirect()->route('games.index')->with('success', 'Game deleted!');
     }
 }

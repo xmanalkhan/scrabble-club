@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Game;
+use App\Models\Member;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -13,11 +13,17 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+        $members = Member::factory(20)->create();
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
+        $games = Game::factory(30)->create();
+
+        foreach ($games as $game) {
+            $players = $members->random(rand(2, 4));
+            foreach ($players as $player) {
+                $game->members()->attach($player->id, [
+                    'score' => rand(200, 500),
+                ]);
+            }
+        }
     }
 }
