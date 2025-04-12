@@ -11,9 +11,12 @@ class Game extends Model
 
     protected $fillable = ['played_at'];
 
+    protected $casts = [
+        'played_at' => 'datetime',
+    ];
+
     public function members()
     {
         return $this->belongsToMany(Member::class)->withPivot('score')->withTimestamps();
     }
 }
-
