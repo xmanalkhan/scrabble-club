@@ -1,7 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
-    <h1>Top 10 Members by Average Score</h1>
+    <h1>Top 10 Members</h1>
+    <p>Well done to these lucky lot!</p>
     <ol>
         @foreach ($members as $member)
             <li>

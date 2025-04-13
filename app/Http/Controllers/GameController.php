@@ -24,18 +24,30 @@ class GameController extends Controller
     {
         $validated = $request->validate([
             'played_at' => 'required|date',
-            'members' => 'required|array|min:2',
-            'members.*.id' => 'required|exists:members,id',
-            'members.*.score' => 'required|integer|min:0',
+            'selected_members' => 'required|array|min:2',
+            'selected_members.*' => 'exists:members,id',
+            'scores' => 'required|array',
         ]);
 
-        $game = Game::create(['played_at' => $request->played_at]);
-
-        foreach ($validated['members'] as $data) {
-            $game->members()->attach($data['id'], ['score' => $data['score']]);
+        foreach ($validated['selected_members'] as $memberId) {
+            if (!isset($validated['scores'][$memberId]) || !is_numeric($validated['scores'][$memberId])) {
+                return back()
+                    ->withErrors(['scores.' . $memberId => 'A valid score is required for each selected player.'])
+                    ->withInput();
+            }
         }
 
-        return redirect()->route('games.index')->with('success', 'Game added!');
+        $game = Game::create([
+            'played_at' => $validated['played_at']
+        ]);
+
+        foreach ($validated['selected_members'] as $memberId) {
+            $game->members()->attach($memberId, [
+                'score' => $validated['scores'][$memberId]
+            ]);
+        }
+
+        return redirect()->route('games.index')->with('success', 'Game added successfully!');
     }
 
     public function show(Game $game)
@@ -47,6 +59,6 @@ class GameController extends Controller
     public function destroy(Game $game)
     {
         $game->delete();
-        return redirect()->route('games.index')->with('success', 'Game deleted!');
+        return redirect()->route('games.index')->with('success', 'Game deleted.');
     }
 }

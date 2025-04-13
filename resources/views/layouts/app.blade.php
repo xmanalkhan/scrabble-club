@@ -54,8 +54,16 @@
     <a href="{{ route('games.index') }}">All Games</a>
 </nav>
 <hr>
+
 <div class="container">
+    @if (session('success'))
+        <div style="background-color: #d1fae5; color: #065f46; padding: 10px; border-radius: 5px; margin-bottom: 1rem;">
+            {{ session('success') }}
+        </div>
+    @endif
+
     @yield('content')
 </div>
 </body>
 </html>
+

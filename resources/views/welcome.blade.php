@@ -1,33 +1,31 @@
 @extends('layouts.app')
 
 @section('content')
-    <h1>Welcome to the Scrabble Club 🧠🎲</h1>
+    <h1>Welcome to the Scrabble Club! 🎲</h1>
 
     <p>
-        This is a backend application designed for managing members, recording game scores, and showcasing top performers in our Scrabble Club.
+        Whether you're here to check out who's been crushing the tiles or just curious about the club stats — you're in the right place.
     </p>
 
-    <h3>What you can do:</h3>
+    <h3>What’s inside?</h3>
     <ul>
-        <li><strong>View Members:</strong> Browse all club members and check out individual profiles</li>
-        <li><strong>Track Games:</strong> See a log of games, scores, and performance over time</li>
-        <li><strong>Leaderboard:</strong> Find out who’s dominating the word board 📈</li>
+        <li><strong>Members:</strong> See who’s in the club and peek at their profile</li>
+        <li><strong>Games:</strong> Browse all the Scrabble battles and scores</li>
+        <li><strong>Leaderboard:</strong> Top players ranked by average score — bragging rights included 🏆</li>
     </ul>
 
     <p>
-        This system is built with Laravel, using clean MVC architecture, relational data modeling, and real-time calculations of averages, highs, and recent games. It also includes seeding and factories for demo data.
+        Everything’s updated live, so feel free to explore! This isn’t about fancy design — it’s about getting the info you need in a snap 💡
     </p>
 
     <hr>
 
-    <p>
-        Ready to get started? Choose an option:
-    </p>
+    <p>Pick where you want to go:</p>
 
     <ul>
         <li><a href="{{ route('members.index') }}">➡️ View All Members</a></li>
-        <li><a href="{{ route('leaderboard') }}">🏆 See the Leaderboard</a></li>
-        <li><a href="{{ route('games.index') }}">🎮 View All Games</a></li>
+        <li><a href="{{ route('leaderboard') }}">📊 See the Leaderboard</a></li>
+        <li><a href="{{ route('games.index') }}">🎮 Check Out All Games</a></li>
     </ul>
 @endsection
 
