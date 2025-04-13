@@ -15,7 +15,7 @@
     </ul>
 
     <p>
-        Everything’s updated live, so feel free to explore! This isn’t about fancy design — it’s about getting the info you need in a snap 💡
+        Everything’s updated live, so feel free to explore! It’s about getting the info you need in a snap 💡
     </p>
 
     <hr>
