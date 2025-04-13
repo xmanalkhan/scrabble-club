@@ -16,7 +16,7 @@ class GameController extends Controller
 
     public function create()
     {
-        $members = Member::all();
+        $members = \App\Models\Member::all();
         return view('games.create', compact('members'));
     }
 
